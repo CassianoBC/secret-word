@@ -1,16 +1,17 @@
 
 import './Game.css';
 
-export default function Game({ verifyLetter }) {
+export default function Game({ verifyLetter, pickedCategory, pickedWord, letters, guessedLetter, wrongLetters, guesses, score }) {
     return (
         <div className="game">
             <p className="points">
-                <span>Pontuação: 000</span>
+                <span>Pontuação: {score}</span>
             </p>
             <h1>Adivinha a palavra:</h1>
             <h3 className="tip">
-                Dica sobre a palavra: <span>Dica...</span>
+                Dica sobre a palavra: <span>{pickedCategory}</span>
             </h3>
+            <p>Você ainda tem {guesses} tentativas</p>
             <div className="wordContainer">
                 <span className="letter">A</span>
                 <span className="blankSquare"></span>
