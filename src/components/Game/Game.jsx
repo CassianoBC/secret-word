@@ -1,7 +1,20 @@
-
+import { useState, useRef } from 'react';
 import './Game.css';
 
-export default function Game({ verifyLetter, pickedCategory, pickedWord, letters, guessedLetter, wrongLetters, guesses, score }) {
+export default function Game({ verifyLetter, pickedCategory, pickedWord, letters, guessedLetter, wrongLetters, guesses, score, wordLetters }) {
+    const [letter, setLetter] = useState("");
+    const letterInputRef = useRef(null);
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        verifyLetter(letter);
+
+        setLetter("");
+
+        letterInputRef.current.focus();
+    }
+
     return (
         <div className="game">
             <p className="points">
@@ -13,20 +26,26 @@ export default function Game({ verifyLetter, pickedCategory, pickedWord, letters
             </h3>
             <p>Você ainda tem {guesses} tentativas</p>
             <div className="wordContainer">
-                <span className="letter">A</span>
-                <span className="blankSquare"></span>
+                    {letters.map((letter, i) => (
+                        guessedLetter.includes(letter) ? (
+                            <span key={i} className='letter'>{letter}</span>
+                        ) : (
+                            <span key={i} className='blankSquare'></span>
+                        )
+                    ))}
             </div>
             <div className="letterContainer">
                 <p>Tente advinhar uma letra da palavra:</p>
-                <form>
-                    <input type='text' name='letter' maxLength={1} required />
+                <form onSubmit={handleSubmit}>
+                    <input type='text' name='letter' maxLength={1} ref={letterInputRef} required onChange={(e) => setLetter(e.target.value)} value={letter} />
                     <button>Jogar</button>
                 </form>
             </div>
             <div className="wrongLettersContainer">
                 <p>Letras ja utilizadas:</p>
-                <span>a,</span>
-                <span>b,</span>
+                {wrongLetters.map((letter, i ) => (
+                    <span key={i}>{letter}, </span>
+                ))}
             </div>
         </div>
     )

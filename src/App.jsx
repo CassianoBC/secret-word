@@ -32,9 +32,10 @@ function App() {
 
     const word = words[category][Math.floor(Math.random() * words[category].length)];
 
+    console.log(category, word);
+
     return {word, category}
   }
-
 
 
   const startGame = () => {
@@ -50,8 +51,29 @@ function App() {
     setGameStage(stages[1].name);
   }
 
-  const verifyLetter = () => {
-    setGameStage(stages[2].name);
+  const verifyLetter = (letter) => {
+    const normalizedLetter = letter.toLowerCase();
+
+    if (guessedLetter.includes(normalizedLetter) || wrongLetters.includes(normalizedLetter))
+    {
+      return;
+    }
+
+    if (letters.includes(normalizedLetter)) {
+      setGuessedLetter((actualGuessedLetter) => [
+        ...actualGuessedLetter,
+        normalizedLetter
+      ])
+    } else {
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters,
+        normalizedLetter
+      ])
+    }
+
+    console.log(guessedLetter);
+      console.log(wrongLetters);
+
   }
 
   const retry = () => {
